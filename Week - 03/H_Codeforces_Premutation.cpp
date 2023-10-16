@@ -21,49 +21,71 @@ int main()
     cin >> test;
 
     while(test--){
-        int n, i, j, value;
+        int n, i, j, index, value, val;
         cin >> n;
         int m = n-1;
         int a[n+5][m+5];
 
         vector<int> v;
         vector<int> vec;
+        vector<int> vec2;
 
         for(i=1; i<=n; i++){
             for(j=1; j<=m; j++){
                 cin >> a[i][j];
                 
-                if(i == 1) v.pb(a[i][j]);
-                if(i == 1) vec.pb(a[i][j]);
+                if(j == 1) v.pb(a[i][j]);
             }
         }
 
-        sort(v.begin(), v.end());
+        int fre[105] = {0};
 
-        if(v[0] != 1){
-            cout << 1 << " ";
-            for(auto val: vec){
-                cout << val << " ";
+        for(i=0; i<v.size(); i++){
+            fre[v[i]]++;
+        }
+
+        for(i=1; i<=n; i++){
+            if(fre[i] == 1){
+                value = i;
             }
-            cout << endl;
+        }
+
+        for(i=0; i<v.size(); i++){
+            if(v[i] == value){
+                index = i+1;
+            }
+        }
+
+        for(i=index; i<=index; i++){
+            for(j=1; j<=m; j++){
+                vec.pb(a[i][j]);
+                vec2.pb(a[i][j]);
+            }
+        }
+
+        sort(vec.begin(), vec.end());
+
+        if(vec[0] != 1){
+            val = 1;
         }
 
         else{
-            for(i=0; i<v.size()-1; i++){
-                if(v[i+1] - v[i] > 1){
-                    value = v[i]+1;
+            for(i=0; i<vec.size()-1; i++){
+                if(vec[i+1] - vec[i] > 1){
+                    val = vec[i]+1;
                     break;
                 }
                 else{
-                    value = n;
+                    val = n;
                 }
             }
-
-            for(auto val: vec){
-                cout << val << " ";
-            }
-            cout << value << endl;
         }
+
+        cout << val << " ";
+        for(auto vall: vec2){
+            cout << vall << " ";
+        }
+        cout << endl;
     }
 
     return 0;
