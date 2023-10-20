@@ -21,7 +21,7 @@ int main()
     cin >> test;
 
     while(test--){
-        int n, i;
+        int n, i, j;
         cin >> n;
         int a[n+5];
 
@@ -31,12 +31,17 @@ int main()
 
         sort(a, a+n);
 
-        ll val1 = a[n-1] - a[0];
-        ll val2 = a[n-2] - a[1];
+        i = 0;
+        j = n-1;
+        ll sum = 0;
 
-        cout << val1 + val2 << endl;
+        while(i<j){
+            sum += a[j] - a[i];
+            i++;
+            j--;
+        }
+        cout << sum << endl;
     }
-
 
     return 0;
 }
