@@ -25,64 +25,52 @@ int main()
         cin >> s;
         int n = s.size(), i;
 
-        int temp1 = s[0];
-        int temp2 = s[n-1];
+        char maxx = max(s[0], s[n-1]);
+        char minn = min(s[0], s[n-1]);
 
         vector<pair<char, int>> v;
+        string str;
+        str.pb(s[0]);
 
         for(i=1; i<n-1; i++){
-            int val = s[i];
-
-            if((val >= temp1 && val <= temp2) || (val >= temp2 && val <= temp1)){
+            if(s[i] >= minn && s[i] <= maxx){
                 v.pb({s[i], i+1});
+                str.pb(s[i]);
             }
-        } 
+        }
+        str.pb(s[n-1]);
 
+        sort(str.begin()+1, str.end()-1);
         sort(v.begin(), v.end());
 
-        ll sum1 = 0;
-
-        for(i=0; i<v.size()-1; i++){
-            int val1 = v[i].first;
-            int val2 = v[i+1].first;
-
-            sum1 += abs(val1 - val2);
+        if(s[0] > s[n-1]){
+            reverse(str.begin()+1, str.end()-1);
+            reverse(v.begin(), v.end());
         }
 
-        sum1 += abs(s[0] - v[0].first);
-        sum1 += abs(s[n-1]-v[v.size()-1].first);
+        ll jumps = str.size();
+        ll cost = 0;
 
-        reverse(v.begin(), v.end());
-
-        ll sum2 = 0;
-
-        for(i=0; i<v.size()-1; i++){
-            int val3 = v[i].first;
-            int val4 = v[i+1].first;
-
-            sum2 += abs(val3 - val4);
+        for(i=0; i<str.size()-1; i++){
+            cost += abs(str[i] - str[i+1]);
         }
-
-        sum2 += abs(s[0]-v[0].first);
-        sum2 += abs(s[n-1]-v[v.size()-1].first);
-
-        ll cost = min(sum1, sum2);
-        ll jump = v.size()+2;
-
-        cout << cost << " " << jump << endl;
-
+        
+        cout << cost << " " << jumps << endl;
+        
         cout << 1 << " ";
-        for(auto val: v){
-            cout << val.second << " ";
+
+        for(auto pair: v){
+            cout << pair.second << " ";
         }
-        cout << n << " " << endl;
+        cout << n << endl;
 
-        // for(i=0; i<v.size(); i++){
-        //     cout << v[i].first << " " << v[i].second << endl;
+        // cout << str << endl;
+
+        // for(auto pair: v){
+        //     cout << pair.first << " " << pair.second << endl;
         // }
-
+        // cout << endl;
     }
-
 
     return 0;
 }
