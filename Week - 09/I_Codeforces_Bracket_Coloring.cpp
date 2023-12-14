@@ -23,7 +23,7 @@ int main()
     cin >> test;
 
     while(test--){
-        int n, i;
+        ll n, i;
         cin >> n;
 
         string s;
@@ -43,40 +43,60 @@ int main()
 
         if(track != 0) cout << -1 << nl;
         else{
-            stack<pair<char, ll>> st;
-
+            bool flag = true;
+            stack<ll> st;
+            vector<ll> ans(n, 2);
+            
             for(i=0; i<n; i++){
-                if(s[i] == ')'){
-                    if(st.top().first == '('){
-                            st.pop();
-                    }
-                    else{
-                        st.push({s[i], i});
-                    }
+                if(s[i] == '('){
+                    st.push(i);
                 }
                 else{
-                    st.push({s[i], i});
+                    if(st.empty()){
+                        flag = false;
+                        continue;
+                    }
+
+                    ans[i] = 1;
+                    ans[st.top()] = 1;
+                    st.pop();
                 }
             }
 
-            while(!st.empty()){
-                cout << st.top().first << " " << st.top().second << nl; 
-                st.pop();
+            
+            if(!flag){
+                while(!st.empty()){
+                    st.pop();
+                }
+
+                ans.assign(n, 2);
+
+                for(i=0; i<n; i++){
+                    if(s[i] == ')'){
+                        st.push(i);
+                    }
+                    else{
+                        if(st.empty()){
+                            flag = false;
+                            continue;
+                        }
+
+                        ans[i] = 1;
+                        ans[st.top()] = 1;
+                        st.pop();
+                    }
+                }
             }
 
-            // ll fre[200005] = {1};
-
-            // while(!st.empty()){
-            //     fre[st.top().second] = 2;
-            //     st.pop();
-            // }
-
-            // for(i=0; i<n; i++){
-            //     cout << fre[i] << " ";
-            // }
-            // cout << nl;
+            ll color = *max_element(ans.begin(), ans.end());
+            cout << color << nl;
+            for(i=0; i<n; i++){
+                cout << ans[i] << " ";
             }
+            cout << nl;
         }
+    }
 
     return 0;
 }
+
